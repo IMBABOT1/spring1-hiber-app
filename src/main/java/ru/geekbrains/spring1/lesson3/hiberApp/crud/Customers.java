@@ -1,6 +1,7 @@
-package ru.geekbrains.spring1.lesson3.hiberApp;
+package ru.geekbrains.spring1.lesson3.hiberApp.crud;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -12,9 +13,22 @@ public class Customers {
     @Column(name = "name")
     private String name;
 
+    @ManyToMany
+    @JoinTable(
+            name = "products_buyers",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Products> products;
+
     public Customers(){
 
     }
+
+    public List<Products> getProducts() {
+        return products;
+    }
+
 
     public Customers(Long id, String name) {
         this.id = id;

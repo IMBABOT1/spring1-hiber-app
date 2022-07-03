@@ -1,10 +1,12 @@
-package ru.geekbrains.spring1.lesson3.hiberApp;
+package ru.geekbrains.spring1.lesson3.hiberApp.crud;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
 public class Products {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,15 +18,14 @@ public class Products {
     @Column(name = "price")
     private int price;
 
-    public Products(Long id, String title, int price) {
-        this.id = id;
-        this.title = title;
-        this.price = price;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "products_buyers",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "customer_id")
+    )
+    private List<Customers> customers;
 
-    public Products(){
-
-    }
 
     public Long getId() {
         return id;
@@ -49,6 +50,24 @@ public class Products {
     public void setPrice(int price) {
         this.price = price;
     }
+
+
+    public List<Customers> getCustomers() {
+        return customers;
+    }
+
+
+
+    public Products(Long id, String title, int price) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+    }
+
+    public Products(){
+
+    }
+
 
     @Override
     public String toString() {
